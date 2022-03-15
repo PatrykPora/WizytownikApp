@@ -20,9 +20,11 @@ public class PersonRepository {
 
 
     public void save(Person person) {
-        final UUID randomUuid = UUID.randomUUID();
-        person.setPersonUuid(randomUuid);
-        persons.put(randomUuid, person);
+        if (person.getPersonUuid() == null) {
+            final UUID randomUuid = UUID.randomUUID();
+            person.setPersonUuid(randomUuid);
+        }
+        persons.put(person.getPersonUuid(), person);
     }
 
 
@@ -35,5 +37,12 @@ public class PersonRepository {
         return persons.values().stream()
                 .filter(x -> x.getEmail().equalsIgnoreCase(email))
                 .findAny();
+    }
+
+    public Optional<Person> findByUuid(UUID personUuid) {
+    return persons.values()
+            .stream()
+            .filter(x -> x.getPersonUuid().equals(personUuid))
+            .findAny();
     }
 }

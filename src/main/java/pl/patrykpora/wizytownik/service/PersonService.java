@@ -2,6 +2,7 @@ package pl.patrykpora.wizytownik.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.patrykpora.wizytownik.exception.PerosnNotFoundException;
 import pl.patrykpora.wizytownik.exception.PersonAlreadyExistException;
 import pl.patrykpora.wizytownik.model.Person;
 import pl.patrykpora.wizytownik.repository.PersonRepository;
@@ -30,5 +31,12 @@ public class PersonService {
         personRepository.save(person);
     }
 
+    public void editPerson(final UUID personUuid, final Person person) {
+        if (!personRepository.findByUuid(personUuid).isPresent()){
+            throw new PerosnNotFoundException();
+        };
+        person.setPersonUuid(personUuid);
+        personRepository.save(person);
+    }
 }
 

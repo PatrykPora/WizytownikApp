@@ -39,6 +39,7 @@ public class BusinessCardController {
     public String addPerson(Model model){
         final Person person = Person.builder().address(Address.builder().build()).build();
         model.addAttribute("person", person);
+        model.addAttribute("action", "/person/add");
         return "edit";
     }
 
@@ -47,4 +48,19 @@ public class BusinessCardController {
         personService.save(person);
         return "redirect:/person/list";
     }
+
+    @GetMapping("/edit/{personUuid}")
+    public String editPerson(@PathVariable UUID personUuid, Model model) {
+        final Person person = personService.getPerson(personUuid);
+        model.addAttribute("person", person);
+        model.addAttribute("action", "/person/edit/" + personUuid);
+        return "edit";
+    }
+
+    @PostMapping("/edit/{personUuid}")
+    public String editPerson(@PathVariable UUID personUuid, Person person){
+    personService.editPerson(personUuid, person);
+    return "redirect:/person/list";
+    }
+
 }
