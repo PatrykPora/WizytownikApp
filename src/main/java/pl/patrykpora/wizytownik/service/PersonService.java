@@ -32,11 +32,20 @@ public class PersonService {
     }
 
     public void editPerson(final UUID personUuid, final Person person) {
-        if (!personRepository.findByUuid(personUuid).isPresent()){
-            throw new PerosnNotFoundException();
-        };
+        checkIfPersonExists(personUuid);
         person.setPersonUuid(personUuid);
         personRepository.save(person);
+    }
+
+    private void checkIfPersonExists(UUID personUuid) {
+        if (!personRepository.findByUuid(personUuid).isPresent()){
+            throw new PerosnNotFoundException();
+        }
+    }
+
+    public void delete(final UUID personUuid) {
+        checkIfPersonExists(personUuid);
+        personRepository.remove(personUuid);
     }
 }
 

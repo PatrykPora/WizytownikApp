@@ -63,4 +63,9 @@ public class BusinessCardController {
     return "redirect:/person/list";
     }
 
+    @PostMapping("/delete/{personUuid}")
+    public String deletePerson(@PathVariable UUID personUuid){
+        personService.delete(personUuid);
+        return "redirect:/person/list";
+    }
 }

@@ -27,6 +27,7 @@
                     <th th:text="#{person.list.telephone}"/>
                     <th th:text="#{person.list.details}"/>
                     <th th:text="#{person.list.edit}"/>
+                    <th th:text="#{person.list.delete}"/>
                 </tr>
                 </thead>
                 <tbody>
@@ -40,9 +41,16 @@
                         <a th:href="@{'/person/details/' + ${person.personUuid}}" class="btn btn-info btn-sm">
                             <span th:text="#{person.list.details}"/>
                         </a>
+                    </td>
+                    <td>
                         <a th:href="@{'/person/edit/' + ${person.personUuid}}" class="btn btn-success btn-sm">
                             <span th:text="#{person.list.edit}"/>
                         </a>
+                    </td>
+                    <td>
+                        <form th:action="@{'/person/delete/' + ${person.personUuid}}" method="post">
+                            <button type="submit" th:text="#{form.delete}" class="btn btn-danger btn-sm"/>
+                        </form>
                     </td>
                 </tr>
                 </tbody>

@@ -45,4 +45,8 @@ public class PersonRepository {
             .filter(x -> x.getPersonUuid().equals(personUuid))
             .findAny();
     }
+
+    public void remove(final UUID personUuid) {
+        persons.remove(personUuid);
+    }
 }
