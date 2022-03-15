@@ -1,52 +1,18 @@
 package pl.patrykpora.wizytownik.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pl.patrykpora.wizytownik.model.Person;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
+import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public class PersonRepository {
+public interface PersonRepository extends JpaRepository<Person, Long> {
 
-    private Map<UUID, Person> persons = new ConcurrentHashMap<>();
+   Optional<Person> findByPersonUuid(final UUID personUuid);
 
-
-    public Person getPerson(final UUID personUuid) {
-        return persons.get(personUuid);
-
-    }
+    Optional<Person> findByEmail(final String email);
 
 
-    public void save(Person person) {
-        if (person.getPersonUuid() == null) {
-            final UUID randomUuid = UUID.randomUUID();
-            person.setPersonUuid(randomUuid);
-        }
-        persons.put(person.getPersonUuid(), person);
-    }
-
-
-    public List<Person> findAll() {
-        return persons.values().stream().collect(Collectors.toList());
-    }
-
-
-    public Optional<Person> findByEmail(final String email) {
-        return persons.values().stream()
-                .filter(x -> x.getEmail().equalsIgnoreCase(email))
-                .findAny();
-    }
-
-    public Optional<Person> findByUuid(UUID personUuid) {
-    return persons.values()
-            .stream()
-            .filter(x -> x.getPersonUuid().equals(personUuid))
-            .findAny();
-    }
-
-    public void remove(final UUID personUuid) {
-        persons.remove(personUuid);
-    }
 }
